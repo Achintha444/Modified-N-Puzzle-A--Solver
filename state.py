@@ -79,9 +79,13 @@ class State:
                 shuffle = self.shuffle(m,pos)
                 if shuffle is not None:
                     child = shuffle[0]
-                    temp_moves = self.moves
-                    child_moves = temp_moves.append([shuffle[1],m])
-                    child_state = State(self.dim,child,self.goal,self,child_moves)
+                    temp_moves = self.moves[:]
+                    # print temp_moves
+                    # if temp_moves == None:
+                    #     temp_moves =[]
+                    temp_moves.append([shuffle[1],m])
+                    #print child_moves
+                    child_state = State(self.dim,child,self.goal,self,temp_moves)
                     expnad.append(child_state)
                     #print expnad
         return expnad
@@ -107,16 +111,16 @@ class State:
             else:
                 a = self.copy()
                 temp_state = a[:]
-                print self.state
+                # print self.state
                 temp = temp_state[new_pos[0]][new_pos[1]]
                 temp_state[new_pos[0]][new_pos[1]] = "-"
                 temp_state[pos[0]][pos[1]] = temp
-                print self.state
-                print ("sels state check")
-                print temp_state
-                print temp
-                print move
-                print "---------"
+                # print self.state
+                # print ("sels state check")
+                # print temp_state
+                # print temp
+                # print move
+                # print "---------"
                 return [temp_state,temp]
         else:
             return None
