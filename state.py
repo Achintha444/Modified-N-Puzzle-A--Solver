@@ -9,18 +9,25 @@ class State:
         self.state = state
         self.goal = goal
         self.hCost = 0
+        self.gCost = 0
         self.evalFunCost = 0
         self.heurisitic = ''
         self.moves = moves
         self.parent = parent
     
     def setHeuristic(self, heuristic):
-        self.heuristic = heuristic
-        if heuristic.lower().find(Constant.misplacedHeuristic) == 0:
-            self.heuristicCost += self.getMisplacedHeuristic()
+        self.heurisitic = heuristic
+        if heuristic.lower().find(Constant.MisplacedHeuristic) == 0:
+            self.hCost += self.getMisplacedHeuristic()
         elif heuristic.lower().find(Constant.ManhattanHeuristic) == 0:
-            self.heuristicCost += self.getManhatanHeuristic()
+            self.hCost += self.getManhatanHeuristic()
     
+    def setEvalFunCost(self):
+        self.evalFunCost = self.hCost + self.gCost
+    
+    def setGCost(self,gCost):
+        self.gCost = gCost
+
     def getMisplacedHeuristic(self):
         misplacedHeuristicCost = 0
         for i in range (0,self.dim):
@@ -86,6 +93,12 @@ class State:
                     temp_moves.append([shuffle[1],m])
                     #print child_moves
                     child_state = State(self.dim,child,self.goal,self,temp_moves)
+                    child_state.setHeuristic(self.heurisitic)
+                    child_state.setGCost(self.gCost+1)
+                    child_state.setEvalFunCost()
+                    # print self.heurisitic
+                    # print child_state.heurisitic
+                    # print ("----")
                     expnad.append(child_state)
                     #print expnad
         return expnad
@@ -109,8 +122,8 @@ class State:
             if self.state[new_pos[0]][new_pos[1]]==Constant.Blank:
                 return None
             else:
-                a = self.copy()
-                temp_state = a[:]
+                #a = self.copy()
+                temp_state =self.copy()
                 # print self.state
                 temp = temp_state[new_pos[0]][new_pos[1]]
                 temp_state[new_pos[0]][new_pos[1]] = "-"
