@@ -5,7 +5,6 @@ from constant import Constant
 class State:
 
     def __init__(self,dim,state,goal,parent,moves):
-        super().__init__()
         self.dim = dim
         self.state = state
         self.goal = goal
@@ -59,9 +58,15 @@ class State:
         count = 0
         for i in range(0,self.dim):
             if Constant.Blank in self.state[i]:
-                p = [i,self.state[i].index(Constant.Blank)]
+                pp = self.state[i].index(Constant.Blank)
+                p = [i,pp]
                 count +=1
                 pos.append(p)
+                for k in range(pp+1,self.dim):
+                    if Constant.Blank == self.state[i][k]:
+                        p = [i,k]
+                        pos.append(p)
+                        count+=1
             if count==2: break
         return pos
     
@@ -72,37 +77,56 @@ class State:
         for pos in blankPos:
             for m in move:
                 shuffle = self.shuffle(m,pos)
-                child = shuffle[0]
-                if child is not None:
+                if shuffle is not None:
+                    child = shuffle[0]
                     temp_moves = self.moves
                     child_moves = temp_moves.append([shuffle[1],m])
                     child_state = State(self.dim,child,self.goal,self,child_moves)
                     expnad.append(child_state)
+                    #print expnad
         return expnad
 
 
     def shuffle(self,move,pos):
         new_pos = []
-        if move == "up":
+        if move == "right":
             new_pos = [pos[0],pos[1]-1]
-        elif move=="down":
-            new_pos = [pos[0],pos[1]+1]
         elif move=="left":
+            new_pos = [pos[0],pos[1]+1]
+        elif move=="down":
             new_pos = [pos[0]-1,pos[1]]
-        elif move=="right":
+        elif move=="up":
             new_pos = [pos[0]+1,pos[1]]
 
         if new_pos[0] >= 0 and new_pos[0] < self.dim and new_pos[1] >= 0 and new_pos[1] < self.dim:
-            if self.state[new_pos[0],new_pos[1]]==Constant.Blank:
+            # print self.state
+            # print new_pos
+            # print Constant.Blank
+            if self.state[new_pos[0]][new_pos[1]]==Constant.Blank:
                 return None
             else:
-                temp_state = []
-                temp_state = self.state
-                temp = temp_state[new_pos[0],new_pos[1]]
-                temp_state[new_pos[0],new_pos[1]] = "-"
-                temp_state[pos[0],pos[1]] = temp
+                a = self.copy()
+                temp_state = a[:]
+                print self.state
+                temp = temp_state[new_pos[0]][new_pos[1]]
+                temp_state[new_pos[0]][new_pos[1]] = "-"
+                temp_state[pos[0]][pos[1]] = temp
+                print self.state
+                print ("sels state check")
+                print temp_state
+                print temp
+                print move
+                print "---------"
                 return [temp_state,temp]
         else:
             return None
 
+    def copy(self):
+        temp = []
+        for i in self.state:
+            t = []
+            for j in i:
+                t.append(j)
+            temp.append(t)
+        return temp
 
