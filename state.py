@@ -74,7 +74,7 @@ class State:
                         p = [i,k]
                         pos.append(p)
                         count+=1
-            if count==2: break
+            if count==Constant.NumberOfBlanks: break
         return pos
     
     def expand(self):
