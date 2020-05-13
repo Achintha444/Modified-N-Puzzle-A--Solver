@@ -59,15 +59,6 @@ def aSearch(startState,goal):
                         open_state.gCost = st.gCost
                         open_state.setEvalFunCost()
                         open_state.parent = st.parent
-
-                # if ((st not in openList) or (st not in closeList)):
-                #     openList.append(st)
-                # if ((st in openList) or (st in closeList)):
-                #     temp = st.evalFunCost
-                #     st.setGCost(min(st.gCost,(state.gCost+1)))
-                #     st.setEvalFunCost()
-                #     if ((st.evalFunCost<temp) and (st in closeList)):
-                #         openList.append(st)
     return None
 
 print ("A* to solve the modified n-puzzle problem")
@@ -81,29 +72,24 @@ goal = []
 
 
 files = list(list(map(str,str(input("Input the input configuration file and the goal configuration file (as tabbed inputs) : ")).split("\t"))))
-for i in range(n):
-    state.append(list(map(str,str(input()).split("\t"))))
-print("Input the goal configuration (line by line)")
-for i in range(n):
-    goal.append(list(map(str,str(input()).split("\t"))))
 
-fo = open(start_conf_file_name, "r")
+fo = open(files[0], "r")
 lines = fo.readlines()
+
 for line in lines:
-    start_configuration.append(line.strip().split())
+    state.append(line.strip().split())
 fo.close()
 
-fo = open(goal_conf_file_name, "r")
+fo = open(files[1], "r")
 lines = fo.readlines()
 for line in lines:
-    goal_configuration.append(line.strip().split())
+    goal.append(line.strip().split())
 fo.close()
 
 print ("Enter the number infront to select the heuristic :")
 print ("1 - number of misplaced tiles")
 print ("2 - total Manhattan distance")
 x = int(input("Enter the value : "))
-
 
 
 startState= State(n,state,goal,None,[])
@@ -125,3 +111,9 @@ output=output[:-2]
 fo = open('output.txt',"w+")
 fo.write(output)
 fo.close()
+
+print('')
+print ('-- necessary moves will be saved to output.txt --')
+print('')
+ex = str(input('Press any key to exit : '))
+exit()
