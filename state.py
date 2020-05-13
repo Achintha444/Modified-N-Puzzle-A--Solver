@@ -33,9 +33,9 @@ class State:
         for i in range (0,self.dim):
             for j in range(0,self.dim):
                 temp = self.state[i][j]
-                if temp != Constant.Blank:
-                    if temp != self.goal[i][j]:
-                        misplacedHeuristicCost+=1
+                if temp != self.goal[i][j]:
+                    if temp == Constant.Blank: continue
+                    misplacedHeuristicCost+=1
         return misplacedHeuristicCost
     
     def getManhatanHeuristic(self):
