@@ -3,7 +3,7 @@ class Constant:
     MisplacedHeuristic = "misplaced"
     ManhattanHeuristic = "manhattan"
     Blank = "-"
-    NumberOfBlanks = 2
+    NumberOfBlanks = 3
 
 
 

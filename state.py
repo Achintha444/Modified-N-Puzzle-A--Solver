@@ -87,22 +87,13 @@ class State:
                 if shuffle is not None:
                     child = shuffle[0]
                     temp_moves = self.moves[:]
-                    # print temp_moves
-                    # if temp_moves == None:
-                    #     temp_moves =[]
                     temp_moves.append([shuffle[1],m])
-                    #print child_moves
                     child_state = State(self.dim,child,self.goal,self,temp_moves)
                     child_state.setHeuristic(self.heurisitic)
                     child_state.setGCost(self.gCost+1)
                     child_state.setEvalFunCost()
-                    # print self.heurisitic
-                    # print child_state.heurisitic
-                    # print ("----")
                     expnad.append(child_state)
-                    #print expnad
         return expnad
-
 
     def shuffle(self,move,pos):
         new_pos = []
@@ -116,24 +107,13 @@ class State:
             new_pos = [pos[0]+1,pos[1]]
 
         if new_pos[0] >= 0 and new_pos[0] < self.dim and new_pos[1] >= 0 and new_pos[1] < self.dim:
-            # print self.state
-            # print new_pos
-            # print Constant.Blank
             if self.state[new_pos[0]][new_pos[1]]==Constant.Blank:
                 return None
             else:
-                #a = self.copy()
                 temp_state =self.copy()
-                # print self.state
                 temp = temp_state[new_pos[0]][new_pos[1]]
                 temp_state[new_pos[0]][new_pos[1]] = "-"
                 temp_state[pos[0]][pos[1]] = temp
-                # print self.state
-                # print ("sels state check")
-                # print temp_state
-                # print temp
-                # print move
-                # print "---------"
                 return [temp_state,temp]
         else:
             return None
