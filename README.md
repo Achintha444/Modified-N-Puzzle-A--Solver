@@ -2,9 +2,9 @@
 
 This is a simple A* search algorithm for solving a modified N-Puzzle
 
-## Programming Language Used - Python 3.7.4
+### Programming Language Used - Python 3.7.4
 
-## In the implementation we have 3 main .py files namely,
+### In the implementation we have 3 .py files namely,
 
 •	constant.py
 •	state.py
